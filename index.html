@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Grammar Quiz | Mr. Mohammed Othman</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        petrol: {
+                            900: '#071A17',
+                            800: '#0B2B26',
+                            700: '#163832',
+                            600: '#235347',
+                            500: '#2F695C',
+                            50: '#F0F7F4'
+                        },
+                        gold: {
+                            300: '#F3E5AB',
+                            400: '#E6C665',
+                            500: '#D4AF37',
+                            600: '#C5A059',
+                            700: '#997328'
+                        },
+                        cream: '#FDFBF7'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        arabic: ['Cairo', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', 'Cairo', sans-serif;
+            background-color: #F8FAF8;
+        }
+        .gold-gradient {
+            background: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 50%, #AA8022 100%);
+        }
+        .gold-border {
+            border-image: linear-gradient(to right, #D4AF37, #F3E5AB, #C5A059) 1;
+        }
+        .petrol-gradient {
+            background: linear-gradient(145deg, #0B2B26 0%, #163832 60%, #235347 100%);
+        }
+        .certificate-border {
+            border: 8px double #C5A059;
+            box-shadow: inset 0 0 0 2px #0B2B26;
+        }
+        @keyframes floatEffect {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        .animate-float {
+            animation: floatEffect 3s ease-in-out infinite;
+        }
+        /* Custom print style for certificate */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #certificateModal, #certificateModal * {
+                visibility: visible;
+            }
+            #certificateModal {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                background: white !important;
+                display: block !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 flex flex-col antialiased selection:bg-gold-500 selection:text-petrol-900">
+
+    <!-- Header / Navbar -->
+    <header class="petrol-gradient text-white border-b-4 border-gold-500 shadow-xl sticky top-0 z-40">
+        <div class="max-w-5xl mx-auto px-4 py-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-3 text-center sm:text-left">
+                <div class="w-12 h-12 rounded-xl gold-gradient p-0.5 shadow-lg flex items-center justify-center text-petrol-900 font-bold text-2xl">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-bold tracking-tight font-serif flex items-center justify-center sm:justify-start gap-2">
+                        English MasterClass
+                        <span class="text-xs bg-gold-500/20 text-gold-300 border border-gold-400/40 px-2 py-0.5 rounded-full font-sans uppercase font-medium tracking-wider">Grammar</span>
+                    </h1>
+                    <p class="text-xs sm:text-sm text-emerald-100/80 font-medium">Prepared by: <span class="text-gold-300 font-semibold">Mr. Mohammed Othman</span></p>
+                </div>
+            </div>
+
+            <!-- Header Badge & Quick Switcher -->
+            <div class="flex items-center gap-2">
+                <div class="bg-petrol-900/60 backdrop-blur-md px-3.5 py-1.5 rounded-lg border border-gold-500/40 text-xs sm:text-sm font-semibold text-gold-300 flex items-center gap-2 shadow-inner">
+                    <i class="fa-solid fa-bookmark text-gold-400"></i>
+                    <span>Topic: <span class="text-white font-bold">Used to</span> vs. <span class="text-white font-bold">Be used to</span></span>
+                </div>
+                <button id="soundToggleBtn" onclick="toggleMute()" class="p-2 bg-petrol-900/60 text-gold-300 hover:text-white rounded-lg border border-gold-500/30 transition text-sm" title="Toggle Sound">
+                    <i id="soundIcon" class="fa-solid fa-volume-high"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-4xl w-full mx-auto px-4 py-6 sm:py-8">
+        
+        <!-- Navigation Tabs -->
+        <div class="flex bg-slate-200/80 p-1.5 rounded-2xl mb-8 border border-slate-300/80 max-w-md mx-auto shadow-inner">
+            <button id="tabSummaryBtn" onclick="switchTab('summary')" class="flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition duration-200 flex items-center justify-center gap-2 bg-white text-petrol-800 shadow">
+                <i class="fa-solid fa-book-open text-gold-600"></i>
+                <span>Summary / شرح مبسط</span>
+            </button>
+            <button id="tabQuizBtn" onclick="switchTab('quiz')" class="flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition duration-200 flex items-center justify-center gap-2 text-slate-600 hover:text-petrol-800">
+                <i class="fa-solid fa-clipboard-question text-gold-600"></i>
+                <span>Take Quiz / الكويز</span>
+            </button>
+        </div>
+
+        <!-- ======================= SECTION 1: STUDY GUIDE / SUMMARY ======================= -->
+        <section id="summarySection" class="transition-all duration-300">
+            <!-- Hero intro box -->
+            <div class="bg-gradient-to-r from-petrol-800 to-petrol-700 text-white rounded-2xl p-6 mb-8 shadow-xl border-t-2 border-gold-400 relative overflow-hidden">
+                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-gold-500/10 rounded-full blur-2xl"></div>
+                <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <span class="inline-block px-3 py-1 bg-gold-500/20 text-gold-300 border border-gold-500/40 text-xs font-bold rounded-md mb-2">قاعدة اليوم الذهبية</span>
+                        <h2 class="text-2xl sm:text-3xl font-bold font-serif">Used to vs. Be Used To</h2>
+                        <p class="text-emerald-100 text-sm mt-1">الفرق الجوهري بين عادات الماضي المنتهية والتأقلم مع الحاضر مع مستر محمد عثمان</p>
+                    </div>
+                    <button onclick="switchTab('quiz')" class="px-5 py-2.5 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 text-petrol-900 font-bold rounded-xl shadow-lg transition transform hover:-translate-y-0.5 text-sm flex items-center gap-2">
+                        <span>ابدأ الاختبار الآن</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Side-by-side comparison cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Card 1: Used To -->
+                <div class="bg-white rounded-2xl p-6 border-2 border-slate-200/90 hover:border-emerald-600/40 shadow-sm transition-all hover:shadow-md">
+                    <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+                        <div class="flex items-center gap-3">
+                            <span class="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold text-lg">1</span>
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-800">Used To + Infinitive</h3>
+                                <p class="text-xs text-amber-700 font-bold uppercase tracking-wider">Past Habit / عادة ماضية انتهت</p>
+                            </div>
+                        </div>
+                        <span class="text-xl">🕰️</span>
+                    </div>
+
+                    <div class="mt-4 space-y-3.5">
+                        <div class="bg-amber-50/70 border border-amber-200/70 rounded-xl p-3 text-xs sm:text-sm text-amber-950 font-medium leading-relaxed">
+                            <strong class="font-bold text-amber-900">المعنى بالعربي:</strong> كان يفعل ذلك زمان وانتهى الآن تماماً (لا يفعله في الحاضر).
+                        </div>
+
+                        <div>
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">القاعدة (Form):</span>
+                            <div class="p-3 bg-slate-900 text-gold-300 font-mono text-xs sm:text-sm rounded-xl font-semibold">
+                                Subject + used to + Verb (مصدر)
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">صيغة النفي (Negative Form):</span>
+                            <div class="p-3 bg-rose-50 border border-rose-200 text-rose-900 font-mono text-xs sm:text-sm rounded-xl">
+                                Subject + <strong class="underline text-rose-700">didn't use to</strong> + Verb (مصدر)
+                            </div>
+                            <p class="text-[11px] text-rose-600 font-semibold mt-1">⚠️ ملحوظة هامة: نحذف حرف (d) عند النفي بـ didn't.</p>
+                        </div>
+
+                        <div class="pt-2">
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1.5">أمثلة (Examples):</span>
+                            <ul class="space-y-2 text-xs sm:text-sm">
+                                <li class="bg-slate-50 p-2.5 rounded-lg border border-slate-200">
+                                    <span class="font-semibold text-slate-800">He <strong>used to live</strong> in a mansion.</span>
+                                    <p class="text-slate-500 text-xs mt-0.5">كان يعيش في قصر زمان (لكنه الآن في شقة صغيرة).</p>
+                                </li>
+                                <li class="bg-slate-50 p-2.5 rounded-lg border border-slate-200">
+                                    <span class="font-semibold text-slate-800">She <strong>didn't use to</strong> drink coffee.</span>
+                                    <p class="text-slate-500 text-xs mt-0.5">لم تكن معتادة على شرب القهوة في الماضي.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Be Used To -->
+                <div class="bg-white rounded-2xl p-6 border-2 border-slate-200/90 hover:border-petrol-600/40 shadow-sm transition-all hover:shadow-md">
+                    <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+                        <div class="flex items-center gap-3">
+                            <span class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-lg">2</span>
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-800">Be Used To + (V-ing / Noun)</h3>
+                                <p class="text-xs text-emerald-700 font-bold uppercase tracking-wider">Familiarity / معتاد ومُتأقلم</p>
+                            </div>
+                        </div>
+                        <span class="text-xl">☕</span>
+                    </div>
+
+                    <div class="mt-4 space-y-3.5">
+                        <div class="bg-emerald-50/70 border border-emerald-200/70 rounded-xl p-3 text-xs sm:text-sm text-emerald-950 font-medium leading-relaxed">
+                            <strong class="font-bold text-emerald-900">المعنى بالعربي:</strong> شيء طبيعي ومألوف بالنسبة له ومتعود عليه (حاضر أو ماضٍ).
+                        </div>
+
+                        <div>
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">القاعدة (Form):</span>
+                            <div class="p-3 bg-petrol-900 text-gold-300 font-mono text-xs sm:text-sm rounded-xl font-semibold">
+                                Subject + (am/is/are) + used to + (V-ing / اسم)
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">صيغة النفي (Negative Form):</span>
+                            <div class="p-3 bg-rose-50 border border-rose-200 text-rose-900 font-mono text-xs sm:text-sm rounded-xl">
+                                Subject + <strong class="underline text-rose-700">be + not + used to</strong> + (V-ing / اسم)
+                            </div>
+                            <p class="text-[11px] text-emerald-700 font-semibold mt-1">💡 ملحوظة: حرف (d) يظل موجوداً كما هو في used to.</p>
+                        </div>
+
+                        <div class="pt-2">
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1.5">أمثلة (Examples):</span>
+                            <ul class="space-y-2 text-xs sm:text-sm">
+                                <li class="bg-slate-50 p-2.5 rounded-lg border border-slate-200">
+                                    <span class="font-semibold text-slate-800">He <strong>is used to working</strong> seven days a week.</span>
+                                    <p class="text-slate-500 text-xs mt-0.5">متعود ومألوف عنده يشتغل 7 أيام كل أسبوع.</p>
+                                </li>
+                                <li class="bg-slate-50 p-2.5 rounded-lg border border-slate-200">
+                                    <span class="font-semibold text-slate-800">I <strong>am used to</strong> the cold weather.</span>
+                                    <p class="text-slate-500 text-xs mt-0.5">أنا متأقلم على الجو البارد (اسم Noun).</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Golden Formula Cheat Sheet -->
+            <div class="mt-8 bg-gold-300/20 border-2 border-gold-400 rounded-2xl p-5 shadow-sm">
+                <div class="flex items-center gap-2 mb-3">
+                    <i class="fa-solid fa-wand-magic-sparkles text-gold-600 text-lg"></i>
+                    <h4 class="font-bold text-petrol-900 text-base">سر الحل السريع في الامتحان (Golden Cheat-Sheet):</h4>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm">
+                    <div class="bg-white p-3.5 rounded-xl border border-gold-400/40 shadow-sm flex items-start gap-2.5">
+                        <i class="fa-solid fa-circle-check text-emerald-600 mt-1"></i>
+                        <div>
+                            <p class="font-bold text-slate-900">إذا لم تجد (Verb to be) قبل القوس:</p>
+                            <p class="text-slate-600 mt-0.5">اختار فوراً: <code class="text-petrol-700 bg-emerald-50 px-1 py-0.5 rounded font-bold">used to + المصدر</code></p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-3.5 rounded-xl border border-gold-400/40 shadow-sm flex items-start gap-2.5">
+                        <i class="fa-solid fa-circle-check text-petrol-600 mt-1"></i>
+                        <div>
+                            <p class="font-bold text-slate-900">إذا وجدت (am / is / are / was / were):</p>
+                            <p class="text-slate-600 mt-0.5">اختار فوراً: <code class="text-petrol-700 bg-emerald-50 px-1 py-0.5 rounded font-bold">used to + Verb-ing أو اسم</code></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================= SECTION 2: INTERACTIVE QUIZ ======================= -->
+        <section id="quizSection" class="hidden">
+            <!-- Student Setup Card (Visible before quiz starts) -->
+            <div id="startScreen" class="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border-2 border-slate-200 max-w-lg mx-auto text-center">
+                <div class="w-20 h-20 gold-gradient text-petrol-900 rounded-3xl flex items-center justify-center text-3xl mx-auto shadow-md mb-5">
+                    <i class="fa-solid fa-feather-pointed"></i>
+                </div>
+                <h3 class="text-2xl font-bold font-serif text-petrol-900">كويز القواعد التفاعلي</h3>
+                <p class="text-slate-600 text-sm mt-1">اختبر فهمك لقاعدة <strong class="text-petrol-800">Used to vs. Be Used To</strong> واحصل على شهادة شكر موقعة باسمك!</p>
+                
+                <div class="mt-6 text-left">
+                    <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">
+                        <i class="fa-regular fa-user mr-1 text-gold-600"></i> أَدْخِل اسمك الكريم (Student Name):
+                    </label>
+                    <input type="text" id="studentNameInput" placeholder="مثال: أحمد محمد / Ahmed Mohamed" 
+                           class="w-full px-4 py-3 border-2 border-slate-200 focus:border-gold-500 rounded-xl focus:outline-none transition font-medium text-slate-800 text-sm bg-slate-50 focus:bg-white" />
+                </div>
+
+                <div class="mt-6 flex flex-col gap-3">
+                    <button onclick="startQuiz()" class="w-full py-3.5 bg-petrol-800 hover:bg-petrol-700 text-gold-300 font-bold rounded-xl shadow-lg border border-gold-500/40 transition transform active:scale-95 text-base flex items-center justify-center gap-2">
+                        <span>ابدأ الاختبار (8 أسئلة)</span>
+                        <i class="fa-solid fa-circle-play"></i>
+                    </button>
+                    <p class="text-xs text-slate-400">تحت إشراف المعلم: أ / محمد عثمان</p>
+                </div>
+            </div>
+
+            <!-- Active Quiz Box (Hidden until started) -->
+            <div id="quizPlayground" class="hidden">
+                <div class="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden">
+                    
+                    <!-- Top Quiz Status Bar -->
+                    <div class="bg-petrol-800 text-white px-6 py-4 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <span id="questionCounterBadge" class="bg-gold-500 text-petrol-950 font-bold text-xs px-3 py-1 rounded-full uppercase tracking-wider">
+                                Question 1 of 8
+                            </span>
+                            <span id="studentGreeting" class="text-xs text-emerald-200 font-medium hidden sm:inline-block"></span>
+                        </div>
+                        <div class="flex items-center gap-4 text-sm font-semibold">
+                            <div class="flex items-center gap-1.5 text-gold-300">
+                                <i class="fa-solid fa-star text-gold-400"></i>
+                                <span>Score: <span id="currentScore" class="font-bold text-white">0</span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progress bar -->
+                    <div class="w-full bg-slate-100 h-2">
+                        <div id="progressBar" class="bg-gradient-to-r from-gold-400 to-gold-600 h-2 transition-all duration-300" style="width: 12.5%;"></div>
+                    </div>
+
+                    <!-- Question Container -->
+                    <div class="p-6 sm:p-8">
+                        <div class="mb-6">
+                            <span class="text-xs font-bold text-petrol-600 uppercase tracking-widest block mb-1">Choose the correct answer:</span>
+                            <h3 id="questionText" class="text-lg sm:text-xl font-bold text-slate-800 leading-snug">
+                                Loading Question...
+                            </h3>
+                        </div>
+
+                        <!-- Options grid -->
+                        <div id="optionsContainer" class="space-y-3">
+                            <!-- Dynamic Option Buttons will appear here -->
+                        </div>
+
+                        <!-- Explanation Card (Shown after answering) -->
+                        <div id="explanationBox" class="mt-6 p-4 rounded-2xl hidden transition-all duration-300">
+                            <div class="flex items-start gap-3">
+                                <div id="explanationIcon" class="mt-0.5 text-xl"></div>
+                                <div class="flex-grow">
+                                    <h4 id="explanationTitle" class="text-sm font-bold"></h4>
+                                    <p id="explanationText" class="text-xs sm:text-sm mt-1 leading-relaxed"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quiz Action buttons -->
+                        <div class="mt-8 flex justify-end">
+                            <button id="nextBtn" onclick="nextQuestion()" disabled class="px-6 py-3 bg-slate-300 text-slate-500 font-bold rounded-xl shadow cursor-not-allowed transition flex items-center gap-2 text-sm">
+                                <span>السؤال التالي</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Final Results Screen (Hidden initially) -->
+            <div id="resultScreen" class="hidden">
+                <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-2xl border-2 border-slate-200 text-center max-w-xl mx-auto">
+                    <canvas id="confettiCanvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
+                    
+                    <div id="trophyIconContainer" class="w-24 h-24 rounded-3xl gold-gradient flex items-center justify-center text-4xl text-petrol-900 mx-auto shadow-xl mb-4 animate-float">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+
+                    <h2 class="text-2xl sm:text-3xl font-bold font-serif text-petrol-900">Quiz Completed!</h2>
+                    <p class="text-slate-500 text-sm mt-1">عمل ممتاز يا بطل! إليك تفاصيل نتيجتك:</p>
+
+                    <!-- Score display block -->
+                    <div class="my-6 bg-petrol-50 border border-petrol-100 rounded-2xl p-6">
+                        <div class="text-5xl font-black text-petrol-800 font-serif mb-1" id="finalPercentage">100%</div>
+                        <p class="text-sm font-bold text-slate-700" id="finalScoreText">You scored 8 out of 8</p>
+                        
+                        <!-- Badge status -->
+                        <div class="mt-3 inline-block">
+                            <span id="gradeBadge" class="px-4 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider bg-gold-400 text-petrol-950">
+                                Excellent / ممتاز جدًا
+                            </span>
+                        </div>
+                        <p id="motivationalMessage" class="text-xs text-slate-600 mt-3 font-medium"></p>
+                    </div>
+
+                    <!-- Action buttons -->
+                    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                        <button onclick="openCertificateModal()" class="flex-1 py-3 px-5 bg-gradient-to-r from-gold-400 to-gold-500 hover:from-gold-300 hover:to-gold-400 text-petrol-900 font-bold rounded-xl shadow-lg transition text-sm flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-award text-petrol-950"></i>
+                            <span>عرض وطباعة شهادة الإنجاز</span>
+                        </button>
+                        <button onclick="resetQuiz()" class="py-3 px-5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition text-sm flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-rotate-right"></i>
+                            <span>إعادة الكويز</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Certificate Modal -->
+    <div id="certificateModal" class="fixed inset-0 bg-petrol-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="relative bg-white max-w-2xl w-full rounded-2xl p-6 sm:p-10 shadow-2xl certificate-border my-8">
+            <!-- Close button for web view -->
+            <button onclick="closeCertificateModal()" class="no-print absolute top-3 right-3 text-slate-400 hover:text-slate-700 w-8 h-8 rounded-full flex items-center justify-center bg-slate-100 transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Certificate Inner Design -->
+            <div class="text-center relative">
+                <!-- Top Emblem -->
+                <div class="w-16 h-16 gold-gradient rounded-full mx-auto flex items-center justify-center text-petrol-900 text-2xl shadow-md mb-2">
+                    <i class="fa-solid fa-ribbon"></i>
+                </div>
+
+                <p class="text-xs font-bold tracking-widest text-gold-700 uppercase font-sans">Official Certificate of Achievement</p>
+                <h2 class="text-2xl sm:text-3xl font-serif font-bold text-petrol-900 mt-1">شهادة تفوق وإنجاز</h2>
+                
+                <p class="text-slate-500 text-xs sm:text-sm mt-3">This is proudly awarded to:</p>
+                
+                <!-- Student Name line -->
+                <div class="my-3 py-2 border-b-2 border-dashed border-gold-500/60 max-w-md mx-auto">
+                    <h3 id="certStudentName" class="text-2xl sm:text-3xl font-bold font-serif text-petrol-800 text-gold-600">
+                        Student Name
+                    </h3>
+                </div>
+
+                <p class="text-slate-600 text-xs sm:text-sm max-w-lg mx-auto leading-relaxed">
+                    For successfully demonstrating mastery in the English grammar assessment on <br/>
+                    <strong class="text-petrol-900">"Used to vs. Be Used To"</strong> with a distinction grade of <span id="certScore" class="font-bold text-emerald-700">100%</span>.
+                </p>
+
+                <!-- Signatures & Verification -->
+                <div class="mt-8 pt-6 border-t border-slate-200 grid grid-cols-2 gap-6 text-center">
+                    <div>
+                        <p class="text-xs text-slate-400 uppercase">Assessment Date</p>
+                        <p id="certDate" class="text-xs sm:text-sm font-semibold text-slate-700 mt-1"></p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400 uppercase">Instructor</p>
+                        <p class="text-xs sm:text-sm font-bold text-petrol-800 font-serif mt-1">Mr. Mohammed Othman</p>
+                        <p class="text-[10px] text-gold-700 font-medium">Senior English Specialist</p>
+                    </div>
+                </div>
+
+                <!-- Print & Export Buttons -->
+                <div class="no-print mt-8 flex flex-wrap gap-3 justify-center">
+                    <button onclick="window.print()" class="px-6 py-2.5 bg-petrol-800 hover:bg-petrol-700 text-gold-300 font-bold rounded-xl shadow transition text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-print"></i>
+                        <span>طباعة الشهادة (Print / PDF)</span>
+                    </button>
+                    <button onclick="closeCertificateModal()" class="px-5 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-xl transition text-sm">
+                        إغلاق
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-auto bg-petrol-950 text-slate-400 text-xs py-6 border-t border-petrol-800 text-center">
+        <div class="max-w-4xl mx-auto px-4 space-y-1">
+            <p class="text-slate-300 font-medium">Prepared with educational care by <span class="text-gold-400 font-bold">Mr. Mohammed Othman</span></p>
+            <p class="text-slate-500">English Grammar Interactive Series &bull; Designed for active and memorable learning</p>
+        </div>
+    </footer>
+
+    <script>
+        /* ================= Sound Synthesizer (Web Audio API) ================= */
+        let isMuted = false;
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioContext();
+            }
+        }
+
+        function playSound(type) {
+            if (isMuted) return;
+            try {
+                initAudio();
+                const now = audioCtx.currentTime;
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                if (type === 'correct') {
+                    // Sweet high chime
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, now); // C5
+                    osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.15); // G5
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                    osc.start(now);
+                    osc.stop(now + 0.4);
+                } else if (type === 'wrong') {
+                    // Soft low buzz
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, now);
+                    osc.frequency.setValueAtTime(180, now + 0.1);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                    osc.start(now);
+                    osc.stop(now + 0.35);
+                } else if (type === 'click') {
+                    // Subdued click
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(600, now);
+                    gain.gain.setValueAtTime(0.08, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+                    osc.start(now);
+                    osc.stop(now + 0.08);
+                }
+            } catch (e) {
+                console.log("Audio not supported or restricted");
+            }
+        }
+
+        function toggleMute() {
+            isMuted = !isMuted;
+            const icon = document.getElementById('soundIcon');
+            if (isMuted) {
+                icon.className = "fa-solid fa-volume-xmark";
+            } else {
+                icon.className = "fa-solid fa-volume-high";
+                playSound('click');
+            }
+        }
+
+        /* ================= Quiz Data ================= */
+        const questions = [
+            {
+                question: "When Ahmed was a child, he ________ football every single afternoon.",
+                options: [
+                    "is used to play",
+                    "used to play",
+                    "used to playing",
+                    "is used to playing"
+                ],
+                correct: 1,
+                explanation: {
+                    en: "Used to + base verb (play) expresses a past habit that no longer occurs today.",
+                    ar: "نستخدم (used to + المصدر) للتعبير عن عادة قديمة متكررة في الماضي وانتهت الآن."
+                }
+            },
+            {
+                question: "Sarah lives in London now, so she ________ the rainy weather.",
+                options: [
+                    "used to",
+                    "didn't use to",
+                    "is used to",
+                    "use to"
+                ],
+                correct: 2,
+                explanation: {
+                    en: "'is used to' is followed by a noun ('the rainy weather') to show familiarity with it.",
+                    ar: "نستخدم (is used to) لأنها متبوعة باسم يعبر عن التأقلم والتعود على شيء مألوف حالياً."
+                }
+            },
+            {
+                question: "Omar moved to the city center recently, and he isn't used to ________ up so early.",
+                options: [
+                    "wake",
+                    "waking",
+                    "woke",
+                    "wakes"
+                ],
+                correct: 1,
+                explanation: {
+                    en: "'Be used to' (isn't used to) must be followed by a gerund (verb + -ing).",
+                    ar: "بعد التعبير (be used to) سواء مثبت أو منفي نضع دائماً الفعل مضافاً له -ing."
+                }
+            },
+            {
+                question: "We ________ have a car, so we walked everywhere, but now we drive.",
+                options: [
+                    "didn't use to",
+                    "aren't used to",
+                    "didn't used to",
+                    "wasn't used to"
+                ],
+                correct: 0,
+                explanation: {
+                    en: "For negative past habit, we use 'didn't use to' (omit the final 'd' after didn't).",
+                    ar: "عند نفي العادة الماضية نستخدم (didn't use to) مع حذف حرف الـ (d) لوجود didn't."
+                }
+            },
+            {
+                question: "I work the night shift at the hospital, so I ________ sleeping during the daytime.",
+                options: [
+                    "used to",
+                    "am used to",
+                    "use to",
+                    "didn't used to"
+                ],
+                correct: 1,
+                explanation: {
+                    en: "'am used to + sleeping' shows that daytime sleeping is customary and normal for the speaker now.",
+                    ar: "نستخدم (am used to + V-ing) لأن النوم نهاراً أصبح أمراً اعتيادياً ومألوفاً له في وظيفته الحالية."
+                }
+            },
+            {
+                question: "He ________ in a mansion, but he lost his fortune and lives in an apartment now.",
+                options: [
+                    "is used to live",
+                    "used to live",
+                    "is used to living",
+                    "used to living"
+                ],
+                correct: 1,
+                explanation: {
+                    en: "A past state or situation that is no longer true is formed with 'used to + infinitive'.",
+                    ar: "حالة أو وضع كان قائماً في الماضي وتغير الآن تماماً $\\rightarrow$ نستخدم used to + المصدر."
+                }
+            },
+            {
+                question: "Although she is a millionaire now, she ________ shopping in extravagant stores.",
+                options: [
+                    "isn't used to",
+                    "didn't use to",
+                    "used not to",
+                    "doesn't used to"
+                ],
+                correct: 0,
+                explanation: {
+                    en: "'isn't used to + shopping' shows she still doesn't feel accustomed to shopping in expensive places.",
+                    ar: "جاء بعدها (shopping) مضاف له -ing $\\rightarrow$ نختار (isn't used to) للتعبير عن عدم التعود الحاضر."
+                }
+            },
+            {
+                question: "Did you ________ have long hair when you were at school?",
+                options: [
+                    "used to",
+                    "use to",
+                    "used",
+                    "use"
+                ],
+                correct: 1,
+                explanation: {
+                    en: "In questions with 'Did', the main auxiliary takes the past tense, so we use the base form 'use to'.",
+                    ar: "في صيغة السؤال بـ Did يرجع الفعل لأصله المجرد بدون (d) فتصبح: Did you use to ...؟"
+                }
+            }
+        ];
+
+        /* ================= Quiz State ================= */
+        let currentQuestionIdx = 0;
+        let score = 0;
+        let studentName = "عزيزي الطالب";
+        let answeredCurrent = false;
+
+        /* ================= Navigation Handler ================= */
+        function switchTab(tab) {
+            playSound('click');
+            const summarySec = document.getElementById('summarySection');
+            const quizSec = document.getElementById('quizSection');
+            const tabSummaryBtn = document.getElementById('tabSummaryBtn');
+            const tabQuizBtn = document.getElementById('tabQuizBtn');
+
+            if (tab === 'summary') {
+                summarySec.classList.remove('hidden');
+                quizSec.classList.add('hidden');
+                
+                tabSummaryBtn.className = "flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition duration-200 flex items-center justify-center gap-2 bg-white text-petrol-800 shadow";
+                tabQuizBtn.className = "flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition duration-200 flex items-center justify-center gap-2 text-slate-600 hover:text-petrol-800";
+            } else {
+                summarySec.classList.add('hidden');
+                quizSec.classList.remove('hidden');
+
+                tabQuizBtn.className = "flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition duration-200 flex items-center justify-center gap-2 bg-white text-petrol-800 shadow";
+                tabSummaryBtn.className = "flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition duration-200 flex items-center justify-center gap-2 text-slate-600 hover:text-petrol-800";
+            }
+        }
+
+        /* ================= Quiz Execution Functions ================= */
+        function startQuiz() {
+            playSound('click');
+            const nameInput = document.getElementById('studentNameInput').value.trim();
+            if (nameInput) {
+                studentName = nameInput;
+            }
+            
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.add('hidden');
+            document.getElementById('quizPlayground').classList.remove('hidden');
+            
+            const greeting = document.getElementById('studentGreeting');
+            greeting.innerText = `طالب: ${studentName}`;
+            greeting.classList.remove('hidden');
+
+            currentQuestionIdx = 0;
+            score = 0;
+            document.getElementById('currentScore').innerText = score;
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            answeredCurrent = false;
+            const q = questions[currentQuestionIdx];
+            
+            // Progress & Counters
+            document.getElementById('questionCounterBadge').innerText = `Question ${currentQuestionIdx + 1} of ${questions.length}`;
+            const percent = ((currentQuestionIdx + 1) / questions.length) * 100;
+            document.getElementById('progressBar').style.width = `${percent}%`;
+
+            // Question Text
+            document.getElementById('questionText').innerHTML = q.question.replace('________', '<span class="px-3 py-0.5 border-b-2 border-gold-500 font-bold text-petrol-700 bg-amber-50 rounded">________</span>');
+
+            // Reset explanation box & Next button
+            const expBox = document.getElementById('explanationBox');
+            expBox.classList.add('hidden');
+            expBox.className = "mt-6 p-4 rounded-2xl hidden transition-all duration-300";
+
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.disabled = true;
+            nextBtn.className = "px-6 py-3 bg-slate-200 text-slate-400 font-bold rounded-xl shadow cursor-not-allowed transition flex items-center gap-2 text-sm";
+            nextBtn.innerHTML = (currentQuestionIdx === questions.length - 1) ? 
+                `<span>عرض النتيجة النهائية</span> <i class="fa-solid fa-flag-checkered"></i>` : 
+                `<span>السؤال التالي</span> <i class="fa-solid fa-arrow-right"></i>`;
+
+            // Render Option Buttons
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+
+            const alphabet = ['A', 'B', 'C', 'D'];
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "option-btn w-full p-4 text-left rounded-2xl border-2 border-slate-200 hover:border-gold-500 hover:bg-slate-50 transition flex items-center gap-3.5 group";
+                btn.onclick = () => selectAnswer(idx);
+                
+                btn.innerHTML = `
+                    <span class="w-8 h-8 rounded-xl bg-slate-100 group-hover:bg-gold-500 group-hover:text-petrol-900 text-slate-600 flex items-center justify-center font-bold text-xs transition">
+                        ${alphabet[idx]}
+                    </span>
+                    <span class="font-medium text-slate-800 text-sm sm:text-base flex-grow">${opt}</span>
+                    <i class="icon-indicator fa-regular fa-circle text-slate-300 text-lg"></i>
+                `;
+                container.appendChild(btn);
+            });
+        }
+
+        function selectAnswer(selectedIndex) {
+            if (answeredCurrent) return;
+            answeredCurrent = true;
+
+            const q = questions[currentQuestionIdx];
+            const optionButtons = document.querySelectorAll('.option-btn');
+            const expBox = document.getElementById('explanationBox');
+            const expIcon = document.getElementById('explanationIcon');
+            const expTitle = document.getElementById('explanationTitle');
+            const expText = document.getElementById('explanationText');
+
+            const isCorrect = selectedIndex === q.correct;
+
+            if (isCorrect) {
+                playSound('correct');
+                score++;
+                document.getElementById('currentScore').innerText = score;
+
+                // Highlight selected button as correct
+                const selectedBtn = optionButtons[selectedIndex];
+                selectedBtn.className = "option-btn w-full p-4 text-left rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-950 flex items-center gap-3.5 shadow-sm";
+                selectedBtn.querySelector('.icon-indicator').className = "icon-indicator fa-solid fa-circle-check text-emerald-600 text-xl";
+
+                // Setup Explanation Box
+                expBox.classList.remove('hidden');
+                expBox.classList.add('bg-emerald-50', 'border', 'border-emerald-200');
+                expIcon.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i>`;
+                expTitle.className = "text-sm font-bold text-emerald-900";
+                expTitle.innerText = "إجابة صحيحة! (Great Job!)";
+            } else {
+                playSound('wrong');
+
+                // Mark wrong selection
+                const selectedBtn = optionButtons[selectedIndex];
+                selectedBtn.className = "option-btn w-full p-4 text-left rounded-2xl border-2 border-rose-500 bg-rose-50 text-rose-950 flex items-center gap-3.5 shadow-sm";
+                selectedBtn.querySelector('.icon-indicator').className = "icon-indicator fa-solid fa-circle-xmark text-rose-600 text-xl";
+
+                // Show which was correct
+                const correctBtn = optionButtons[q.correct];
+                correctBtn.className = "option-btn w-full p-4 text-left rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-950 flex items-center gap-3.5";
+                correctBtn.querySelector('.icon-indicator').className = "icon-indicator fa-solid fa-circle-check text-emerald-600 text-xl";
+
+                // Setup Explanation Box
+                expBox.classList.remove('hidden');
+                expBox.classList.add('bg-rose-50', 'border', 'border-rose-200');
+                expIcon.innerHTML = `<i class="fa-solid fa-circle-exclamation text-rose-600"></i>`;
+                expTitle.className = "text-sm font-bold text-rose-900";
+                expTitle.innerText = "إجابة غير دقيقة! لاحظ السبب:";
+            }
+
+            // Populate bilingual explanation
+            expText.innerHTML = `
+                <div class="mt-1 space-y-1">
+                    <p class="text-slate-800 font-semibold">${q.explanation.en}</p>
+                    <p class="text-slate-600 text-xs">${q.explanation.ar}</p>
+                </div>
+            `;
+
+            // Enable Next Button
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.disabled = false;
+            nextBtn.className = "px-6 py-3 bg-petrol-800 hover:bg-petrol-700 text-gold-300 font-bold rounded-xl shadow-lg border border-gold-500/40 transition flex items-center gap-2 text-sm";
+        }
+
+        function nextQuestion() {
+            playSound('click');
+            if (currentQuestionIdx < questions.length - 1) {
+                currentQuestionIdx++;
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        /* ================= Results & Celebration ================= */
+        function showResults() {
+            document.getElementById('quizPlayground').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+
+            const total = questions.length;
+            const percentage = Math.round((score / total) * 100);
+
+            document.getElementById('finalPercentage').innerText = `${percentage}%`;
+            document.getElementById('finalScoreText').innerText = `أحرزت ${score} من إجمالي ${total} أسئلة`;
+
+            const badge = document.getElementById('gradeBadge');
+            const msg = document.getElementById('motivationalMessage');
+
+            if (percentage >= 85) {
+                badge.innerText = "Excellent / ممتاز مع مرتبة الشرف";
+                badge.className = "px-4 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider bg-gold-400 text-petrol-950";
+                msg.innerText = "ما شاء الله! مستواك رائع جداً ومتقن للقاعدة بالكامل.";
+                triggerConfetti();
+                playSound('correct');
+            } else if (percentage >= 65) {
+                badge.innerText = "Very Good / جيد جداً";
+                badge.className = "px-4 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider bg-emerald-200 text-emerald-900";
+                msg.innerText = "أداء ممتاز! متبقي لمسات بسيطة لمراجعة الملاحظات وتصل للدرجة النهائية.";
+            } else {
+                badge.innerText = "Good Effort / محاولة جيدة";
+                badge.className = "px-4 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider bg-slate-200 text-slate-800";
+                msg.innerText = "ننصحك بمراجعة جدول التلخيص بالأعلى ثم إعادة المحاولة لتحقيق 100%.";
+            }
+        }
+
+        function resetQuiz() {
+            playSound('click');
+            document.getElementById('resultScreen').classList.add('hidden');
+            document.getElementById('startScreen').classList.remove('hidden');
+        }
+
+        /* ================= Certificate Modal Handlers ================= */
+        function openCertificateModal() {
+            playSound('click');
+            document.getElementById('certStudentName').innerText = studentName;
+            const percentage = Math.round((score / questions.length) * 100);
+            document.getElementById('certScore').innerText = `${percentage}%`;
+
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('certDate').innerText = new Date().toLocaleDateString('en-US', options);
+
+            document.getElementById('certificateModal').classList.remove('hidden');
+        }
+
+        function closeCertificateModal() {
+            playSound('click');
+            document.getElementById('certificateModal').classList.add('hidden');
+        }
+
+        /* ================= Confetti Generator ================= */
+        function triggerConfetti() {
+            const canvas = document.getElementById('confettiCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const particles = [];
+            const colors = ['#D4AF37', '#163832', '#F3E5AB', '#2F695C', '#E6C665'];
+
+            for (let i = 0; i < 90; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    size: Math.random() * 8 + 4,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    speedY: Math.random() * 3 + 2,
+                    speedX: Math.random() * 2 - 1,
+                    rotation: Math.random() * 360,
+                    rotationSpeed: Math.random() * 10 - 5
+                });
+            }
+
+            let animationFrame;
+            let start = Date.now();
+
+            function render() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.y += p.speedY;
+                    p.x += p.speedX;
+                    p.rotation += p.rotationSpeed;
+
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate((p.rotation * Math.PI) / 180);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                    ctx.restore();
+                });
+
+                if (Date.now() - start < 3500) {
+                    animationFrame = requestAnimationFrame(render);
+                } else {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    cancelAnimationFrame(animationFrame);
+                }
+            }
+            render();
+        }
+
+        // Adjust canvas on resize
+        window.addEventListener('resize', () => {
+            const canvas = document.getElementById('confettiCanvas');
+            if (canvas) {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+        });
+    </script>
+</body>
+</html>
